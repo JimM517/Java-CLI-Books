@@ -1,9 +1,7 @@
 package com.techelevator;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 import static java.lang.Integer.parseInt;
 
@@ -235,13 +233,13 @@ public class App {
      See README for additional details.
      */
     private List<Integer> filterByPublishedYearRange(int filterFromYear, int filterToYear) {
-        // TODO sort results array to show most recent first
         List<Integer> results = new ArrayList<>();
         for (int i = 0; i < publishedYears.size(); i++) {
             if (publishedYears.get(i) >= filterFromYear && publishedYears.get(i) <= filterToYear) {
                 results.add(i);
             }
         }
+        Collections.sort(results, Comparator.comparingInt(publishedYears::get));
         return results;
     }
 
