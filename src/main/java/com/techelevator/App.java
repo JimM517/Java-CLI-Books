@@ -122,7 +122,8 @@ public class App {
                          Replace `displayPublishedYearsList(publishedYears)` with calls
                          to the `filterByPublishedYearRange()` and `displaySearchResults()` methods.
                          */
-                        displayPublishedYearsList(publishedYears);
+//                        displayPublishedYearsList(publishedYears);
+                        displaySearchResults(filterByPublishedYearRange(filterFromYear, filterToYear));
                     } else if (searchBooksMenuSelection == 5) {
                         // Find the most recent books
                         /*
@@ -130,7 +131,8 @@ public class App {
                          Replace `displayPublishedYearsList(publishedYears)` with calls
                          to the `findMostRecentBooks()` and `displaySearchResults()` methods.
                          */
-                        displayPublishedYearsList(publishedYears);
+//                        displayPublishedYearsList(publishedYears);
+                        displaySearchResults(findMostRecentBooks());
                     } else if (searchBooksMenuSelection == 6) {
                         // Search by price
                         double filterPrice = promptForPrice("Enter price: ");
@@ -139,7 +141,8 @@ public class App {
                          Replace `displayPricesList(prices)` with calls to the
                          `filterByPrice()` and `displaySearchResults()` methods.
                          */
-                        displayPricesList(prices);
+//                        displayPricesList(prices);
+                        displaySearchResults(filterByPrice(filterPrice));
                     } else if (searchBooksMenuSelection == 7) {
                         // Search by price range
                         double filterFromPrice= promptForPrice("Enter \"from\" price: ");
@@ -149,7 +152,8 @@ public class App {
                          Replace `displayPricesList(prices)` with calls to the
                          `filterByPriceRange()` and `displaySearchResults()` methods.
                          */
-                        displayPricesList(prices);
+//                        displayPricesList(prices);
+                        displaySearchResults(filterByPriceRange(filterFromPrice, filterToPrice));
                     } else if (searchBooksMenuSelection == 8) {
                         // Find the least expensive books
                         /*
@@ -231,9 +235,10 @@ public class App {
      See README for additional details.
      */
     private List<Integer> filterByPublishedYearRange(int filterFromYear, int filterToYear) {
+        // TODO sort results array to show most recent first
         List<Integer> results = new ArrayList<>();
         for (int i = 0; i < publishedYears.size(); i++) {
-            if (publishedYears.get(i) > filterFromYear && publishedYears.get(i) < filterToYear) {
+            if (publishedYears.get(i) >= filterFromYear && publishedYears.get(i) <= filterToYear) {
                 results.add(i);
             }
         }
@@ -245,6 +250,23 @@ public class App {
      Add the `private List<Integer> findMostRecentBooks()` method.
      See README for additional details.
      */
+    private List<Integer> findMostRecentBooks() {
+        List<Integer> results = new ArrayList<>();
+        int mostRecentYear = publishedYears.get(0);
+
+        for (int i = 0; i < publishedYears.size(); i++) {
+            if (publishedYears.get(i) > mostRecentYear) {
+                mostRecentYear = publishedYears.get(i);
+            }
+        }
+
+        for (int k = 0; k < publishedYears.size(); k++) {
+            if (publishedYears.get(k) == mostRecentYear) {
+                results.add(k);
+            }
+        }
+        return results;
+    }
 
     /*
      Requirement: 8a
@@ -252,7 +274,13 @@ public class App {
      See README for additional details.
      */
     private List<Integer> filterByPrice(double filterPrice) {
-        return null;
+        List<Integer> results = new ArrayList<>();
+        for (int i = 0; i < prices.size(); i++) {
+            if (prices.get(i).doubleValue() <= filterPrice) {
+                results.add(i);
+            }
+        }
+        return results;
     }
 
     /*
@@ -261,7 +289,13 @@ public class App {
      See README for additional details.
      */
     private List<Integer> filterByPriceRange(double filterFromPrice, double filterToPrice) {
-        return null;
+        List<Integer> results = new ArrayList<>();
+        for (int i = 0; i < prices.size(); i++) {
+            if (prices.get(i).doubleValue() >= filterFromPrice && prices.get(i).doubleValue() <= filterToPrice) {
+                results.add(i);
+            }
+        }
+        return results;
     }
 
     /*
@@ -269,6 +303,22 @@ public class App {
      Add the `private List<Integer> findLeastExpensiveBooks()` method.
      See README for additional details.
      */
+    private List<Integer> findLeastExpensiveBooks() {
+        List<Integer> results = new ArrayList<>();
+        double min = prices.get(0).doubleValue();
+        for (int i = 0; i < prices.size(); i++) {
+            if (prices.get(i).doubleValue() < min) {
+                min = prices.get(i).doubleValue();
+            }
+        }
+
+        for (int k = 0; k < prices.size(); k++) {
+            if (prices.get(k).doubleValue() == min) {
+                results.add(k);
+            }
+        }
+        return results;
+    }
 
 
     // UI methods
